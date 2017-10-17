@@ -1,0 +1,29 @@
+{
+  "name": "billmanager",
+  "version": "1.0.0",
+  "description": "A manager bills",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "araluce"
+  },
+  "keywords": [
+    "manager",
+    "bill",
+    "bills",
+    "albaran",
+    "albaranes",
+    "gestor",
+    "electron",
+    "node",
+    "nodejs"
+  ],
+  "author": "araluce <araluce11@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.7.9"
+  }
+}
