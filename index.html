@@ -1,12 +1,235 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Camera Test</title>
-    <link rel="stylesheet" href="app.css">
-    <script src="jquery.js"></script>
-    <script src="app.js"></script>
-  </head>
-  <body>
-    <video id="camera" autoplay> </video>
-  </body>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>El Mirador - Control de albaranes</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap-theme.min.css" />
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="./assets/css/style.css" />
+	<link rel="stylesheet" href="./assets/css/print.css" />
+	<link rel="stylesheet" href="./assets/css/tabs.css" />
+	<link rel="stylesheet" href="./assets/css/pdf-preview.css" />
+
+	<link rel="import" href="sections/pdf.html">
+</head>
+
+<body>
+
+	<div class="jumbotron">
+		<h3>Jamones el mirador - Control de Albaranes</h3>
+		<button type="button" id="min-btn" class="btn btn-danger">_</button>
+		<button type="button" id="close-btn" class="btn btn-danger">x</button>
+	</div>
+
+	<div class="panel with-nav-tabs panel-primary">
+		<div class="panel-heading">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#tab1primary" data-toggle="tab">
+						<i class="fa fa-user fa-lg"></i>
+						<br> Nuevo albarán
+					</a>
+				</li>
+				<li>
+					<a href="#tab2primary" data-toggle="tab">Primary 2</a>
+				</li>
+				<li>
+					<a href="#tab3primary" data-toggle="tab">Primary 3</a>
+				</li>
+				<li class="dropdown">
+					<a href="#" data-toggle="dropdown">Dropdown
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a href="#tab4primary" data-toggle="tab">Primary 4</a>
+						</li>
+						<li>
+							<a href="#tab5primary" data-toggle="tab">Primary 5</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				<div class="tab-content">
+					<div class="tab-pane fade in active" id="tab1primary">
+						<div class="row">
+							<div class="col-md-6">
+								<fieldset>
+									<legend>Datos del cliente</legend>
+									<div class="row">
+										<div class="col-md-12" id="billErrorMessage">
+
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="bill_client_dni">DNI</label>
+												<input type="text" class="form-control" id="bill_client_dni" aria-describedby="bill_client_dni_help" placeholder="DNI">
+												<small id="bill_client_dni_help" class="form-text text-muted">Escriba un DNI, mientras lo escribe se irán mostrando coincidendias en el selector de
+													<strong>Posibles Clientes</strong>
+												</small>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<label for="bill_client_select">Posibles clientes</label>
+											<select class="form-control" id="bill_client_select">
+												<option value="0">Sin coincidencias</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_client_name">Nombre</label>
+												<input type="text" class="form-control" id="bill_client_firstName" placeholder="Nombre">
+											</div>
+										</div>
+
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_client_lastname">Apellidos</label>
+												<input type="text" class="form-control" id="bill_client_lastName" placeholder="Apellidos">
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_client_phone">Teléfono</label>
+												<input type="phone" class="form-control" id="bill_client_phone" placeholder="Teléfono">
+											</div>
+										</div>
+									</div>
+								</fieldset>
+
+								<fieldset>
+									<legend>Albarán de entrada</legend>
+
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_receipt_date_input">Fecha de entrada</label>
+												<div class="input-group date" data-provide="datepicker">
+													<input type="text" class="form-control" id="bill_receipt_date_input">
+													<div class="input-group-addon">
+														<span class="fa fa-calendar fa-md"></span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_receipt_lot_number">Nº Lote</label>
+												<input type="number" class="form-control" id="bill_receipt_lot_number" placeholder="Nº Lote" min=0>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_receipt_weight">Peso</label>
+												<input type="number" class="form-control" id="bill_receipt_weight" placeholder="Peso" min=0>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_receipt_price">Precio</label>
+												<input type="number" class="form-control" id="bill_receipt_price" placeholder="Precio" min=0>
+											</div>
+										</div>
+
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_receipt_t_reception">Tª Recepción</label>
+												<input type="text" class="form-control" id="bill_receipt_t_reception" placeholder="Tª Recepción">
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_origin">Procedencia</label>
+												<input type="text" class="form-control" id="bill_origin" placeholder="Procedencia">
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_n_rsi">Nº RSI.</label>
+												<input type="number" class="form-control" id="bill_n_rsi" placeholder="Nº RSI." min=0>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_receipt_num_hams">Nº Jamones</label>
+												<input type="number" class="form-control" id="bill_receipt_num_hams" placeholder="Nº Jamones" min=0>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="bill_receipt_num_palettes">Nº Paletas</label>
+												<input type="number" class="form-control" id="bill_receipt_num_palettes" placeholder="Nº Paletas" min=0>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<button type="button" class="btn btn-block btn-primary" id="createBillButton">Crear Albarán</button>
+										</div>
+									</div>
+								</fieldset>
+							</div>
+
+							<div class="col-md-6">
+								<div w3-include-html="./sections/pdf.html"></div>
+							</div>
+
+						</div>
+					</div>
+					<div class="tab-pane fade" id="tab2primary">Primary 2</div>
+					<div class="tab-pane fade" id="tab3primary">Primary 3</div>
+					<div class="tab-pane fade" id="tab4primary">Primary 4</div>
+					<div class="tab-pane fade" id="tab5primary">Primary 5</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./controllers/index.js"></script>
+	<script src="./node_modules/jquery/dist/jquery.min.js"></script>
+	<script>
+		try {
+			$ = jQuery = module.exports;
+		} catch (e) { }
+	</script>
+	<script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="./node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('.datepicker').datepicker({
+				format: 'dd/mm/yyyy',
+				autoclose: true,
+				language: 'es',
+			});
+		});
+	</script>
+	<script src="./assets/js/w3.js"></script>
+	<script>
+		w3.includeHTML();
+	</script>
+</body>
+
 </html>

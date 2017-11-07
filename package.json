@@ -4,12 +4,15 @@
   "description": "A manager bills",
   "main": "main.js",
   "scripts": {
-    "start": "electron index.js"
+    "postinstall": "install-app-deps",
+    "start": "electron .",
+    "dev": "electron . --debug",
+    "package": "npm-run-all package:*",
+    "package:win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=out --icon=assets/app-icon/win/app.ico",
+    "package:linux": "electron-packager . --overwrite --platform=linux --arch=x64 --out=out",
+    "build": "electron-packager . --overwrite ElMirador-Manager"
   },
-  "repository": {
-    "type": "git",
-    "url": "araluce"
-  },
+  "repository": "https://github.com/araluce/Bill-Manager-electron-",
   "keywords": [
     "manager",
     "bill",
@@ -24,6 +27,25 @@
   "author": "araluce <araluce11@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "electron": "^1.7.9"
+    "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.7.1",
+    "electron-settings": "^3.1.3",
+    "font-awesome": "^4.7.0",
+    "highlight.js": "^9.12.0",
+    "jquery": "^3.2.1",
+    "sequelize": "^4.15.0",
+    "sequelize-cli": "^3.0.0",
+    "sqlite3": "^3.1.13"
+  },
+  "devDependencies": {
+    "asar": "^0.13.0",
+    "check-for-leaks": "^1.2.0",
+    "electron": "^1.7.9",
+    "electron-builder": "^19.37.2",
+    "electron-packager": "^8.7.2",
+    "electron-reload": "^1.2.2",
+    "electron-winstaller": "^2.6.3",
+    "npm-run-all": "^4.1.1",
+    "signcode": "^1.0.0"
   }
 }

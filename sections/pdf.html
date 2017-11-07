@@ -1,0 +1,73 @@
+<fieldset>
+  <legend>Vista previa del documento</legend>
+</fieldset>
+<div class="container-fluid">
+  <div class="row pdf-preview" id="pdf-bill">
+    <div class="col-md-12">
+      <div class="pdf-header">
+        <div class="row">
+          <div class="logo col-md-3"></div>
+          <div class="col-md-7">
+            <h1>JAMONES EL MIRADOR
+              <br>ALBARÁN DE ENTRADA DE CONTROL Y REGISTRO
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          Nombre: <span id="pdfBillFullName"></span>
+        </div>
+        <div class="col-md-4">
+          Teléfono: <span id="pdfBillPhone"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          Procedencia: <span id="pdfBillOrigin"></span>
+        </div>
+        <div class="col-md-4">
+          Nº RSI.: <span id="pdfBillNRSI"></span>
+        </div>
+        <div class="col-md-4">
+          D.N.I: <span id="pdfBillDNI"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          Fecha de entrada: <span id="pdfBillDateInput"></span>
+        </div>
+        <div class="col-md-4">
+          Nº de lote: <span id="pdfBillLotNumber"></span>
+        </div>
+        <div class="col-md-4">
+          Peso: <span id="pdfBillWheight"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          Jamones: <span id="pdfBillNumHams"></span>
+        </div>
+        <div class="col-md-4">
+          Paletas: <span id="pdfBillNumPalettes"></span>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12">
+              Precio: <span id="pdfBillPrice"></span>
+            </div>
+            <div class="col-md-12">
+              Tº Recepción: <span id="pdfBillTReception"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 3%;">
+    <center>
+      <button class="btn btn-primary hidden-print" id="button-pdf-bill">
+        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Resguardo</button>
+    </center>
+  </div>
+</div>

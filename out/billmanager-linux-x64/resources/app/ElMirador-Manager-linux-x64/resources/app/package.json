@@ -1,0 +1,50 @@
+{
+  "name": "billmanager",
+  "version": "1.0.0",
+  "description": "A manager bills",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug",
+    "package": "npm-run-all package:*",
+    "package:mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --out=out --icon=assets/app-icon/mac/app.icns --osx-sign.identity='Developer ID Application: GitHub' --extend-info=assets/mac/info.plist",
+    "package:win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=out --icon=assets/app-icon/win/app.ico",
+    "package:linux": "electron-packager . --overwrite --platform=linux --arch=x64 --out=out",
+    "package:sign-exe": "signcode './out/Electron API Demos-win32-ia32/Electron API Demos.exe' --cert ~/electron-api-demos.p12 --prompt --name 'Electron API Demos' --url 'http://electron.atom.io'",
+    "package:installer": "node ./script/installer.js",
+    "package:sign-installer": "signcode './out/windows-installer/ElectronAPIDemosSetup.exe' --cert ~/electron-api-demos.p12 --prompt --name 'Electron API Demos' --url 'http://electron.atom.io'",
+    "package:mas": "./script/mas.sh",
+    "windows-store": "node ./script/windows-store.js",
+    "release": "node ./script/release.js",
+    "prepack": "check-for-leaks",
+    "prepush": "check-for-leaks",
+    "build": "electron-packager . ElMirador-Manager"
+  },
+  "repository": "https://github.com/araluce/Bill-Manager-electron-",
+  "keywords": [
+    "manager",
+    "bill",
+    "bills",
+    "albaran",
+    "albaranes",
+    "gestor",
+    "electron",
+    "node",
+    "nodejs"
+  ],
+  "author": "araluce <araluce11@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "electron-settings": "^3.1.3",
+    "highlight.js": "^9.12.0"
+  },
+  "devDependencies": {
+    "asar": "^0.13.0",
+    "check-for-leaks": "^1.2.0",
+    "electron": "^1.7.9",
+    "electron-packager": "^8.7.2",
+    "electron-winstaller": "^2.6.3",
+    "npm-run-all": "^4.1.1",
+    "signcode": "^1.0.0"
+  }
+}

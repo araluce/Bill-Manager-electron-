@@ -1,0 +1,28 @@
+.pdf-preview{
+    border: 0.5px rgba(0,0,0,0.1) solid;
+    padding: 15px;
+    font-size: 14px;
+}
+
+.pdf-preview h1{
+    font-size: 17px;
+}
+
+.pdf-preview .bill-number{
+    color: red;
+    font-size: 27px;
+}
+
+.pdf-preview .logo{
+    height: 60px;
+    width: 60px;
+    background: url('../pdf-logo-alpha.png') no-repeat;
+    background-size: 60px 60px;
+    float: left;
+}
+
+.pdf-preview .ham,
+.pdf-preview .palettes{
+    border: 1px #000 solid;
+    padding: 4px;
+}
