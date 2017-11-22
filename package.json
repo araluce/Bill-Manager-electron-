@@ -8,7 +8,7 @@
     "start": "electron .",
     "dev": "electron . --debug",
     "package": "npm-run-all package:*",
-    "package:win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=out --icon=assets/app-icon/win/app.ico",
+    "package:win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=out --icon=build/favicon.ico",
     "package:linux": "electron-packager . --overwrite --platform=linux --arch=x64 --out=out",
     "build": "electron-packager . --overwrite ElMirador-Manager"
   },
@@ -31,7 +31,6 @@
     "bootstrap-datepicker": "^1.7.1",
     "datatables": "^1.10.13",
     "electron-pdf": "^1.2.2",
-    "electron-rebuild": "^1.6.0",
     "electron-settings": "^3.1.3",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.12.0",
@@ -52,7 +51,8 @@
     "electron-reload": "^1.2.2",
     "electron-winstaller": "^2.6.3",
     "npm-run-all": "^4.1.1",
-    "signcode": "^1.0.0"
+    "signcode": "^1.0.0",
+    "electron-rebuild": "^1.6.0"
   },
   "pkg": {
     "scripts": [
