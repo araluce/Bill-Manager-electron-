@@ -11,212 +11,1030 @@
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="./assets/css/style.css" />
-	<link rel="stylesheet" href="./assets/css/print.css" />
+	<link rel="stylesheet" type="text/css" href="./assets/css/print.css" media="print">
 	<link rel="stylesheet" href="./assets/css/tabs.css" />
 	<link rel="stylesheet" href="./assets/css/pdf-preview.css" />
-
-	<link rel="import" href="sections/pdf.html">
+	<link rel="stylesheet" href="./node_modules/datatables/media/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="./node_modules/toastr/toastr.scss">
+	<link rel="stylesheet" href="./assets/css/style-admin.css">
 </head>
 
 <body>
+	<div class="wrapper">
+		<div class="panel with-nav-tabs panel-primary">
+			<div class="panel-body">
+				<div class="container-fluid">
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="tab1">
+							<nav class="navbar navbar-default navbar-fixed-top navbar-breadcrumb">
+								<div class="container-fluid">
+									<ul class="nav navbar-nav navbar-left">
+										<ul class="nav navbar-nav navbar-left custombreadcrumb">
+											<a href="#tab1" class="active" data-toggle="tab">
+												<i class="fa fa-home fa-2x"></i>
+											</a>
+										</ul>
+									</ul>
+									<ul class="nav navbar-nav navbar-right">
+										<li>
+											<button type="button" class="btn btn-danger min-btn">
+												<span class="fa fa-window-minimize fa-sm"></span>
+											</button>
+										</li>
+										<li>
+											<button type="button" class="btn btn-danger close-btn">
+												<span class="fa fa-times fa-sm"></span>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
+							<div class="row top">
+								<div class="col-md-12" id="billErrorMessage">
 
-	<div class="jumbotron">
-		<h3>Jamones el mirador - Control de Albaranes</h3>
-		<button type="button" id="min-btn" class="btn btn-danger">_</button>
-		<button type="button" id="close-btn" class="btn btn-danger">x</button>
-	</div>
-
-	<div class="panel with-nav-tabs panel-primary">
-		<div class="panel-heading">
-			<ul class="nav nav-tabs">
-				<li class="active">
-					<a href="#tab1primary" data-toggle="tab">
-						<i class="fa fa-user fa-lg"></i>
-						<br> Nuevo albarán
-					</a>
-				</li>
-				<li>
-					<a href="#tab2primary" data-toggle="tab">Primary 2</a>
-				</li>
-				<li>
-					<a href="#tab3primary" data-toggle="tab">Primary 3</a>
-				</li>
-				<li class="dropdown">
-					<a href="#" data-toggle="dropdown">Dropdown
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu" role="menu">
-						<li>
-							<a href="#tab4primary" data-toggle="tab">Primary 4</a>
-						</li>
-						<li>
-							<a href="#tab5primary" data-toggle="tab">Primary 5</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<div class="panel-body">
-			<div class="container-fluid">
-				<div class="tab-content">
-					<div class="tab-pane fade in active" id="tab1primary">
-						<div class="row">
-							<div class="col-md-6">
-								<fieldset>
-									<legend>Datos del cliente</legend>
-									<div class="row">
-										<div class="col-md-12" id="billErrorMessage">
-
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-c-white">
+										<div class="panel-heading">
+											<div class="panel-tools">
+												<button type="button" id="reload_bill_table" class="btn btn-default btn-sm pull-right">
+													<span class="fa fa-refresh fa-sm"></span>
+												</button>
+											</div>
+											Albarán de entrada
+										</div>
+										<div class="panel-body">
+											<table id="bill_table" class="table table-striped table-hover dataTable no-footer" cellspacing="0" width="100%">
+												<thead>
+													<tr>
+														<th>NRSI</th>
+														<th>Nº Lote</th>
+														<th>Fecha de entrada</th>
+														<th>Cliente</th>
+														<th>DNI</th>
+														<th>Teléfono</th>
+														<th>#Jamones</th>
+														<th>#Paletas</th>
+														<th>Peso</th>
+														<th>Origen</th>
+														<th>Precio</th>
+														<th>Acciones</th>
+													</tr>
+												</thead>
+											</table>
 										</div>
 									</div>
+								</div>
+								<div class="col-md-12">
 									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="bill_client_dni">DNI</label>
-												<input type="text" class="form-control" id="bill_client_dni" aria-describedby="bill_client_dni_help" placeholder="DNI">
-												<small id="bill_client_dni_help" class="form-text text-muted">Escriba un DNI, mientras lo escribe se irán mostrando coincidendias en el selector de
-													<strong>Posibles Clientes</strong>
-												</small>
-											</div>
-										</div>
-										<div class="col-md-6">
-											<label for="bill_client_select">Posibles clientes</label>
-											<select class="form-control" id="bill_client_select">
-												<option value="0">Sin coincidencias</option>
-											</select>
-										</div>
+										<div class="col-md-12" id="billErrorMessage"></div>
 									</div>
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_client_name">Nombre</label>
-												<input type="text" class="form-control" id="bill_client_firstName" placeholder="Nombre">
-											</div>
+									<div class="panel panel-filled panel-c-warning">
+										<div class="panel-heading">
+											Datos del cliente
 										</div>
-
-
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_client_lastname">Apellidos</label>
-												<input type="text" class="form-control" id="bill_client_lastName" placeholder="Apellidos">
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="bill_client_dni">DNI</label>
+														<input type="text" class="form-control" id="bill_client_dni" aria-describedby="bill_client_dni_help" placeholder="DNI">
+														<small id="bill_client_dni_help" class="form-text text-muted">Escriba un DNI, mientras lo escribe se irán mostrando coincidendias en el selector de
+															<strong>Posibles Clientes</strong>
+														</small>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<label for="bill_client_select">Posibles clientes</label>
+													<select class="form-control" id="bill_client_select">
+														<option value="0">Sin coincidencias</option>
+													</select>
+												</div>
 											</div>
-										</div>
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_client_name">Nombre</label>
+														<input type="text" class="form-control" id="bill_client_firstName" placeholder="Nombre">
+													</div>
+												</div>
 
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_client_phone">Teléfono</label>
-												<input type="phone" class="form-control" id="bill_client_phone" placeholder="Teléfono">
-											</div>
-										</div>
-									</div>
-								</fieldset>
 
-								<fieldset>
-									<legend>Albarán de entrada</legend>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_client_lastname">Apellidos</label>
+														<input type="text" class="form-control" id="bill_client_lastName" placeholder="Apellidos">
+													</div>
+												</div>
 
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_receipt_date_input">Fecha de entrada</label>
-												<div class="input-group date" data-provide="datepicker">
-													<input type="text" class="form-control" id="bill_receipt_date_input">
-													<div class="input-group-addon">
-														<span class="fa fa-calendar fa-md"></span>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_client_phone">Teléfono</label>
+														<input type="phone" class="form-control" id="bill_client_phone" placeholder="Teléfono">
 													</div>
 												</div>
 											</div>
 										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_receipt_lot_number">Nº Lote</label>
-												<input type="number" class="form-control" id="bill_receipt_lot_number" placeholder="Nº Lote" min=0>
-											</div>
+									</div>
+
+									<div class="panel panel-filled panel-c-info">
+										<div class="panel-heading">
+											Albarán de entrada
 										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_receipt_weight">Peso</label>
-												<input type="number" class="form-control" id="bill_receipt_weight" placeholder="Peso" min=0>
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_date_input">Fecha de entrada</label>
+														<div class="input-group date datepicker" data-provide="datepicker">
+															<input type="text" class="form-control" id="bill_date_input">
+															<div class="input-group-addon">
+																<span class="fa fa-calendar fa-md"></span>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_lot_number">Nº Lote</label>
+														<input type="number" class="form-control" id="bill_lot_number" placeholder="Nº Lote" min=0>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_weight">Peso</label>
+														<input type="number" class="form-control" id="bill_weight" placeholder="Peso" min=0>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_price">Precio</label>
+														<input type="number" class="form-control" id="bill_price" placeholder="Precio" min=0>
+													</div>
+												</div>
+
+
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_t_reception">Tª Recepción</label>
+														<input type="text" class="form-control" id="bill_t_reception" placeholder="Tª Recepción">
+													</div>
+												</div>
+
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_origin">Procedencia</label>
+														<input type="text" class="form-control" id="bill_origin" placeholder="Procedencia">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_n_rsi">Nº RSI.</label>
+														<input type="number" class="form-control" id="bill_n_rsi" placeholder="Nº RSI." min=0>
+													</div>
+												</div>
+
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_num_hams">Nº Jamones</label>
+														<input type="number" class="form-control" id="bill_num_hams" placeholder="Nº Jamones" min=0>
+													</div>
+												</div>
+
+												<div class="col-md-4">
+													<div class="form-group">
+														<label for="bill_num_palettes">Nº Paletas</label>
+														<input type="number" class="form-control" id="bill_num_palettes" placeholder="Nº Paletas" min=0>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<button type="button" class="btn btn-block btn-warning" id="createBillButton">Crear Albarán</button>
+												</div>
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_receipt_price">Precio</label>
-												<input type="number" class="form-control" id="bill_receipt_price" placeholder="Precio" min=0>
-											</div>
-										</div>
-
-
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_receipt_t_reception">Tª Recepción</label>
-												<input type="text" class="form-control" id="bill_receipt_t_reception" placeholder="Tª Recepción">
-											</div>
-										</div>
-
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_origin">Procedencia</label>
-												<input type="text" class="form-control" id="bill_origin" placeholder="Procedencia">
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_n_rsi">Nº RSI.</label>
-												<input type="number" class="form-control" id="bill_n_rsi" placeholder="Nº RSI." min=0>
-											</div>
-										</div>
-
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_receipt_num_hams">Nº Jamones</label>
-												<input type="number" class="form-control" id="bill_receipt_num_hams" placeholder="Nº Jamones" min=0>
-											</div>
-										</div>
-
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="bill_receipt_num_palettes">Nº Paletas</label>
-												<input type="number" class="form-control" id="bill_receipt_num_palettes" placeholder="Nº Paletas" min=0>
-											</div>
-										</div>
-									</div>
-									<div class="row">
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade in" id="tab2">
+							<nav class="navbar navbar-default navbar-fixed-top navbar-breadcrumb">
+								<div class="container-fluid">
+									<ul class="nav navbar-nav navbar-left custombreadcrumb">
+										<a href="#tab1" data-toggle="tab">
+											<i class="fa fa-home fa-2x"></i>
+										</a>
+										<a href="#">
+											<div>Mi albarán</div>
+										</a>
+										<a href="#" class="active">
+											<div>Imprimir</div>
+										</a>
+									</ul>
+									<ul class="nav navbar-nav navbar-right">
+										<li>
+											<button type="button" class="btn btn-danger min-btn">
+												<span class="fa fa-window-minimize fa-sm"></span>
+											</button>
+										</li>
+										<li>
+											<button type="button" class="btn btn-danger close-btn">
+												<span class="fa fa-times fa-sm"></span>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
+							<div class="container-fluid">
+								<div class="row top">
+									<div class="col-lg-8 col-lg-offset-2 col-sm-12 pdf-preview" id="pdf-bill">
 										<div class="col-md-12">
-											<button type="button" class="btn btn-block btn-primary" id="createBillButton">Crear Albarán</button>
+											<div class="pdf-header">
+												<div class="row">
+													<div class="col-md-1 col-xs-1">
+														<img src="./assets/pdf-logo-alpha.png" height="60px" width="60px" />
+													</div>
+													<div class="col-md-11 col-xs-11">
+														<h1>JAMONES EL MIRADOR
+															<br>ALBARÁN DE ENTRADA DE CONTROL Y REGISTRO
+														</h1>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-8 col-xs-8">
+													Nombre:
+													<span class="pdfBillFullName"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													Teléfono:
+													<span id="pdfBillPhone"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-xs-4">
+													Procedencia:
+													<span class="pdfBillOrigin"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													Nº RSI.:
+													<span id="pdfBillNRSI"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													D.N.I:
+													<span id="pdfBillDNI"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-xs-4">
+													Fecha de entrada:
+													<span class="pdfBillDateInput"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													Nº de lote:
+													<span id="pdfBillLotNumber"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													Peso:
+													<span class="pdfBillWheight"></span>
+													<span> Kg</span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-xs-4">
+													Jamones:
+													<span class="pdfBillNumHams"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													Paletas:
+													<span class="pdfBillNumPalettes"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													<div class="row">
+														<div class="col-md-12">
+															Precio:
+															<span class="pdfBillPrice"></span>
+															<span class="fa fa-eur"></span>
+														</div>
+														<div class="col-md-12">
+															Tº Recepción:
+															<span id="pdfBillTReception"></span>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
-								</fieldset>
-							</div>
+								</div>
 
-							<div class="col-md-6">
-								<div w3-include-html="./sections/pdf.html"></div>
+								<div class="row">
+									<div class="col-lg-8 col-lg-offset-2 col-sm-12 pdf-preview" id="pdf-receipt">
+										<div class="col-md-12">
+											<div class="pdf-header">
+												<div class="row">
+													<div class="col-md-1 col-xs-1">
+														<img src="./assets/pdf-logo-alpha.png" height="60px" width="60px" />
+													</div>
+													<div class="col-md-11 col-xs-11">
+														<h1>JAMONES EL MIRADOR
+															<br>RESGUARDO DE DEPÓSITO
+														</h1>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12 col-xs-12">
+													D/Dña:
+													<span class="pdfBillFullName"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-xs-4">
+													Fecha de entrada:
+													<span class="pdfBillDateInput"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													Jamones:
+													<span class="pdfBillNumHams"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													Paletas:
+													<span class="pdfBillNumPalettes"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-xs-4">
+													Procedencia:
+													<span class="pdfBillOrigin"></span>
+												</div>
+												<div class="col-md-4 col-xs-4">
+													Peso:
+													<span class="pdfBillWheight"></span>
+													<span> Kg</span>
+												</div>
+												<div class="col-md-12">
+													Precio:
+													<span class="pdfBillPrice"></span>
+													<span class="fa fa-eur"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12 col-xs-12">
+													<h4>Importante:</h4>
+													<p>
+														<small>Periodo de secadero 10 meses máximo, pasado ese tiempo cuenta un periodo más a su cargo y el máximo es de dos
+															periodos. El secadero no se hace responsable del resultado del proceso ya que no participa en la matanza,
+															despiece, refrigeración ni transporte hasta el ingreso en nuestras instalaciones.
+														</small>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" style="margin-top: 3%;">
+									<center>
+										<button class="btn btn-warning hidden-print" id="pdf-receipt-button">
+											<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Resguardo</button>
+									</center>
+								</div>
 							</div>
+						</div>
+						<div class="tab-pane fade in" id="tab3">
+							<nav class="navbar navbar-default navbar-fixed-top navbar-breadcrumb">
+								<div class="container-fluid">
+									<ul class="nav navbar-nav navbar-left custombreadcrumb">
+										<a href="#tab1" data-toggle="tab">
+											<i class="fa fa-home fa-2x"></i>
+										</a>
+										<a href="#">
+											<div>Mi albarán</div>
+										</a>
+										<a href="#" class="active">
+											<div>Retiradas y bajas</div>
+										</a>
+									</ul>
+									<ul class="nav navbar-nav navbar-right">
+										<li>
+											<button type="button" class="btn btn-danger min-btn">
+												<span class="fa fa-window-minimize fa-sm"></span>
+											</button>
+										</li>
+										<li>
+											<button type="button" class="btn btn-danger close-btn">
+												<span class="fa fa-times fa-sm"></span>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
+							<div class="container-fluid">
+								<div class="row top">
+									<div class="col-md-12">
+										<div class="panel panel-c-white">
+											<div class="panel-heading">
+												<div class="panel-tools">
+													<button type="button" id="reload_retire_table" class="btn btn-default btn-sm pull-right">
+														<span class="fa fa-refresh fa-sm"></span>
+													</button>
+												</div>
+												Tabla de retiradas
+											</div>
+											<div class="panel-body">
+												<table id="retire_table" class="table table-striped table-hover dataTable no-footer" cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha de retirada</th>
+															<th>Fecha de consumo preferente</th>
+															<th>Retirado por</th>
+															<th>Destino final</th>
+															<th>Etiquetado con</th>
+															<th>#Jamones</th>
+															<th>#Paletas</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-12" id="retireErrorMessage"></div>
+										</div>
+										<div class="panel panel-filled panel-c-warning">
+											<div class="panel-heading">
+												Datos de la retirada
+											</div>
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="retire_date_output">Fecha de retirada</label>
+															<div class="input-group date datepicker" data-provide="datepicker">
+																<input type="text" class="form-control" id="retire_date_output">
+																<div class="input-group-addon">
+																	<span class="fa fa-calendar fa-md"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="retire_date_consumption">Fecha de consumo preferente</label>
+															<div class="input-group date datepicker" data-provide="datepicker">
+																<input type="text" class="form-control" id="retire_date_consumption">
+																<div class="input-group-addon">
+																	<span class="fa fa-calendar fa-md"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="retire_destination">Destino final</label>
+															<input type="text" class="form-control" id="retire_destination" placeholder="Destino final">
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="retire_tagged">Etiquetado con</label>
+															<input type="text" class="form-control" id="retire_tagged" placeholder="Etiquetado con">
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="retire_for">Retirado por</label>
+															<input type="text" class="form-control" id="retire_for" placeholder="Retirado por">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="retire_num_hams">Nº Jamones</label>
+															<input type="number" class="form-control" id="retire_num_hams" placeholder="Nº Jamones" min=0>
+														</div>
+													</div>
 
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="retire_num_palettes">Nº Paletas</label>
+															<input type="number" class="form-control" id="retire_num_palettes" placeholder="Nº Paletas" min=0>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-12">
+														<button type="button" class="btn btn-block btn-warning" id="retireButton">Retirar</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="panel panel-c-white">
+											<div class="panel-heading">
+												<div class="panel-tools">
+													<button type="button" id="reload_unsubscribe_table" class="btn btn-default btn-sm pull-right">
+														<span class="fa fa-refresh fa-sm"></span>
+													</button>
+												</div>
+												Tabla de bajas
+											</div>
+											<div class="panel-body">
+												<table id="unsubscribe_table" class="table table-striped table-hover dataTable no-footer" cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha de baja</th>
+															<th>Razón</th>
+															<th>Observaciones</th>
+															<th>#Jamones</th>
+															<th>#Paletas</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-12" id="unsubscribeErrorMessage"></div>
+										</div>
+										<div class="panel panel-filled panel-c-warning">
+											<div class="panel-heading">
+												Datos de la baja
+											</div>
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="unsubscribe_date_unsubscribe">Fecha de baja</label>
+															<div class="input-group date datepicker" data-provide="datepicker">
+																<input type="text" class="form-control" id="unsubscribe_date_unsubscribe">
+																<div class="input-group-addon">
+																	<span class="fa fa-calendar fa-md"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="unsubscribe_reason">Razón</label>
+															<textarea class="form-control" id="unsubscribe_reason" rows="8"></textarea>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="unsubscribe_observations">Observaciones</label>
+															<textarea class="form-control" id="unsubscribe_observations" rows="8"></textarea>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="unsubscribe_num_hams">Nº Jamones</label>
+															<input type="number" class="form-control" id="unsubscribe_num_hams" placeholder="Nº Jamones" min=0>
+														</div>
+													</div>
+
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="unsubscribe_num_palettes">Nº Paletas</label>
+															<input type="number" class="form-control" id="unsubscribe_num_palettes" placeholder="Nº Paletas" min=0>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-12">
+														<button type="button" class="btn btn-block btn-warning" id="unsubscribeButton">Dar de baja</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="tab4">
+							<nav class="navbar navbar-default navbar-fixed-top navbar-breadcrumb">
+								<div class="container-fluid">
+									<ul class="nav navbar-nav navbar-left custombreadcrumb">
+										<a href="#tab1" data-toggle="tab">
+											<i class="fa fa-home fa-2x"></i>
+										</a>
+										<a href="#">
+											<div>Mi albarán</div>
+										</a>
+										<a href="#tab3" data-toggle="tab">
+											<div>Retiradas y bajas</div>
+										</a>
+										<a href="#tab3" data-toggle="tab">
+											<div>Mi retirada</div>
+										</a>
+										<a href="#" class="active">
+											<div>Imprimir</div>
+										</a>
+									</ul>
+									<ul class="nav navbar-nav navbar-right">
+										<li>
+											<button type="button" class="btn btn-danger min-btn">
+												<span class="fa fa-window-minimize fa-sm"></span>
+											</button>
+										</li>
+										<li>
+											<button type="button" class="btn btn-danger close-btn">
+												<span class="fa fa-times fa-sm"></span>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
+							<div class="container-fluid">
+								<div class="row top">
+									<div class="col-lg-8 col-lg-offset-2 col-sm-12 pdf-preview" id="pdf-retire">
+										<div class="col-md-12">
+											<div class="pdf-header">
+												<div class="row">
+													<div class="col-md-1 col-xs-1">
+														<img src="./assets/pdf-logo-alpha.png" height="60px" width="60px" />
+													</div>
+													<div class="col-md-11 col-xs-11">
+														<h1>JAMONES EL MIRADOR
+															<br>RESGUARDO DE RETIRADA DE PIEZAS
+														</h1>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-xs-4">
+													Retirados el día:
+													<span id="pdf_retire_date_output"></span>
+												</div>
+												<div class="col-md-8 col-xs-8">
+													Por:
+													<span id="pdf_retire_for"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-xs-4">
+													Nº de Lote:
+													<span id="pdf_retire_lot_number"></span>
+												</div>
+												<div class="col-md-8 col-xs-8">
+													Destino final:
+													<span id="pdf_retire_destination"></span>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-6 col-xs-6">
+													Jamones:
+													<span id="pdf_retire_num_hams"></span>
+												</div>
+												<div class="col-md-6 col-xs-6">
+													Paletas:
+													<span id="pdf_retire_num_palettes"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" style="margin-top: 3%;">
+									<center>
+										<button class="btn btn-warning hidden-print" id="pdf-retire-button">
+											<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Resguardo</button>
+									</center>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="tab5">
+							<nav class="navbar navbar-default navbar-fixed-top navbar-breadcrumb">
+								<div class="container-fluid">
+									<ul class="nav navbar-nav navbar-left custombreadcrumb">
+										<a href="#tab1" data-toggle="tab">
+											<i class="fa fa-home fa-2x"></i>
+										</a>
+										<a href="#tab1" data-toggle="tab">
+											<div>Mi albarán</div>
+										</a>
+										<a href="#tab3" data-toggle="tab">
+											<div>Retiradas y bajas</div>
+										</a>
+										<a href="#tab3" data-toggle="tab">
+											<div>Mi retirada</div>
+										</a>
+										<a href="#" class="active">
+											<div>Editar</div>
+										</a>
+									</ul>
+									<ul class="nav navbar-nav navbar-right">
+										<li>
+											<button type="button" class="btn btn-danger min-btn">
+												<span class="fa fa-window-minimize fa-sm"></span>
+											</button>
+										</li>
+										<li>
+											<button type="button" class="btn btn-danger close-btn">
+												<span class="fa fa-times fa-sm"></span>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
+							<div class="container-fluid">
+								<div class="row top">
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-12" id="retireEditErrorMessage"></div>
+										</div>
+										<div class="panel panel-filled panel-c-warning">
+											<div class="panel-heading">
+												Datos de la retirada
+											</div>
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="edit_retire_date_output">Fecha de retirada</label>
+															<div class="input-group date datepicker" data-provide="datepicker">
+																<input type="text" class="form-control" id="edit_retire_date_output">
+																<div class="input-group-addon">
+																	<span class="fa fa-calendar fa-md"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="edit_retire_date_consumption">Fecha de consumo preferente</label>
+															<div class="input-group date datepicker" data-provide="datepicker">
+																<input type="text" class="form-control" id="edit_retire_date_consumption">
+																<div class="input-group-addon">
+																	<span class="fa fa-calendar fa-md"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="edit_retire_destination">Destino final</label>
+															<input type="text" class="form-control" id="edit_retire_destination" placeholder="Destino final">
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="edit_retire_tagged">Etiquetado con</label>
+															<input type="text" class="form-control" id="edit_retire_tagged" placeholder="Etiquetado con">
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="edit_retire_for">Retirado por</label>
+															<input type="text" class="form-control" id="edit_retire_for" placeholder="Retirado por">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="edit_retire_num_hams">Nº Jamones</label>
+															<input type="number" class="form-control" id="edit_retire_num_hams" placeholder="Nº Jamones" min=0>
+														</div>
+													</div>
+
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="edit_retire_num_palettes">Nº Paletas</label>
+															<input type="number" class="form-control" id="edit_retire_num_palettes" placeholder="Nº Paletas" min=0>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-12">
+														<button type="button" class="btn btn-block btn-warning" id="editRetireButton">Editar retirada</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade in" id="tab6">
+							<nav class="navbar navbar-default navbar-fixed-top navbar-breadcrumb">
+								<div class="container-fluid">
+									<ul class="nav navbar-nav navbar-left custombreadcrumb">
+										<a href="#tab1" data-toggle="tab">
+											<i class="fa fa-home fa-2x"></i>
+										</a>
+										<a href="#">
+											<div>Mi albarán</div>
+										</a>
+										<a href="#tab3" data-toggle="tab">
+											<div>Retiradas y bajas</div>
+										</a>
+										<a href="#tab3" data-toggle="tab">
+											<div>Mi baja</div>
+										</a>
+										<a href="#" class="active">
+											<div>Imprimir</div>
+										</a>
+									</ul>
+									<ul class="nav navbar-nav navbar-right">
+										<li>
+											<button type="button" class="btn btn-danger min-btn">
+												<span class="fa fa-window-minimize fa-sm"></span>
+											</button>
+										</li>
+										<li>
+											<button type="button" class="btn btn-danger close-btn">
+												<span class="fa fa-times fa-sm"></span>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
+							<div class="container-fluid">
+								<div class="row top">
+									<div class="col-lg-8 col-lg-offset-2 col-sm-12 pdf-preview" id="pdf-unsubscribe">
+										<div class="col-md-12">
+											<div class="pdf-header">
+												<div class="row">
+													<div class="col-md-1 col-xs-1">
+														<img src="./assets/pdf-logo-alpha.png" height="60px" width="60px" />
+													</div>
+													<div class="col-md-11 col-xs-11">
+														<h1>JAMONES EL MIRADOR
+															<br>RESGUARDO DE BAJA
+														</h1>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12 col-xs-12">
+													Baja el día:
+													<span id="pdf_unsubscribe_date_unsubscribe"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4 col-xs-4">
+													Razón:
+													<p id="pdf_unsubscribe_reason"></p>
+												</div>
+												<div class="col-md-8 col-xs-8">
+													Observaciones:
+													<p id="pdf_unsubscribe_observations"></p>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-6 col-xs-6">
+													Jamones:
+													<span id="pdf_unsubscribe_num_hams"></span>
+												</div>
+												<div class="col-md-6 col-xs-6">
+													Paletas:
+													<span id="pdf_unsubscribe_num_palettes"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" style="margin-top: 3%;">
+									<center>
+										<button class="btn btn-warning hidden-print" id="pdf-unsubscribe-button">
+											<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Resguardo</button>
+									</center>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="tab7">
+							<nav class="navbar navbar-default navbar-fixed-top navbar-breadcrumb">
+								<div class="container-fluid">
+									<ul class="nav navbar-nav navbar-left custombreadcrumb">
+										<a href="#tab1" data-toggle="tab">
+											<i class="fa fa-home fa-2x"></i>
+										</a>
+										<a href="#tab1" data-toggle="tab">
+											<div>Mi albarán</div>
+										</a>
+										<a href="#tab3" data-toggle="tab">
+											<div>Retiradas y bajas</div>
+										</a>
+										<a href="#tab3" data-toggle="tab">
+											<div>Mi baja</div>
+										</a>
+										<a href="#" class="active">
+											<div>Editar</div>
+										</a>
+									</ul>
+									<ul class="nav navbar-nav navbar-right">
+										<li>
+											<button type="button" class="btn btn-danger min-btn">
+												<span class="fa fa-window-minimize fa-sm"></span>
+											</button>
+										</li>
+										<li>
+											<button type="button" class="btn btn-danger close-btn">
+												<span class="fa fa-times fa-sm"></span>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
+							<div class="container-fluid">
+								<div class="row top">
+									<div class="col-md-12">
+										<div class="panel panel-filled panel-c-white">
+											<div class="panel-heading">
+												Datos de la baja
+											</div>
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="edit_unsubscribe_date_unsubscribe">Fecha de baja</label>
+															<div class="input-group date datepicker" data-provide="datepicker">
+																<input type="text" class="form-control" id="edit_unsubscribe_date_unsubscribe">
+																<div class="input-group-addon">
+																	<span class="fa fa-calendar fa-md"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="edit_unsubscribe_reason">Razón</label>
+															<textarea class="form-control" id="edit_unsubscribe_reason" rows="8"></textarea>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="edit_unsubscribe_observations">Observaciones</label>
+															<textarea class="form-control" id="edit_unsubscribe_observations" rows="8"></textarea>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="edit_unsubscribe_num_hams">Nº Jamones</label>
+															<input type="number" class="form-control" id="edit_unsubscribe_num_hams" placeholder="Nº Jamones" min=0>
+														</div>
+													</div>
+
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="edit_unsubscribe_num_palettes">Nº Paletas</label>
+															<input type="number" class="form-control" id="edit_unsubscribe_num_palettes" placeholder="Nº Paletas" min=0>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-12">
+														<button type="button" class="btn btn-block btn-warning" id="editUnsubscribeButton">Editar baja</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="tab-pane fade" id="tab2primary">Primary 2</div>
-					<div class="tab-pane fade" id="tab3primary">Primary 3</div>
-					<div class="tab-pane fade" id="tab4primary">Primary 4</div>
-					<div class="tab-pane fade" id="tab5primary">Primary 5</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<script src="./controllers/index.js"></script>
 	<script src="./node_modules/jquery/dist/jquery.min.js"></script>
 	<script>
 		try {
 			$ = jQuery = module.exports;
-		} catch (e) { }
+		} catch (e) {}
 	</script>
 	<script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="./node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script src="./node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script>
 		$(document).ready(function () {
 			$('.datepicker').datepicker({
@@ -229,6 +1047,26 @@
 	<script src="./assets/js/w3.js"></script>
 	<script>
 		w3.includeHTML();
+	</script>
+	<script src="./controllers/index.js"></script>
+	<script>
+		$("#pdf-bill-button").on("click", () => {
+			ipcRenderer.send("printPDF", $('#pdf-bill').html());
+		});
+		$("#pdf-retire-button").on("click", () => {
+			ipcRenderer.send("printPDF", $('#pdf-retire').html());
+		});
+		$("#pdf-receipt-button").on("click", () => {
+			ipcRenderer.send("printPDF", $('#pdf-receipt').html());
+		});
+		$("#pdf-unsubscribe-button").on("click", () => {
+			ipcRenderer.send("printPDF", $('#pdf-unsubscribe').html());
+		});
+		$(document).ready(function () {
+			ipcRenderer.on("printPDF", (event, content) => {
+				ipcRenderer.send("readyToPrintPDF");
+			});
+		});
 	</script>
 </body>
 

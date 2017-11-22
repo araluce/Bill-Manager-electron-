@@ -13,7 +13,6 @@
 .jumbotron button{
     position: absolute;
     top: 1px;
-    font-weight: 500;
 }
 
 .jumbotron #close-btn{
@@ -21,7 +20,7 @@
 }
 
 .jumbotron #min-btn{
-    right: 35px;
+    right: 40px;
 }
 
 .fa-lg {
@@ -29,3 +28,7 @@
     line-height: .75em;
     vertical-align: -15%;
 }
+
+/*
+    TABLES
+*/
