@@ -7,26 +7,11 @@ const electron = require('electron')
 
 const BrowserWindow = electron.BrowserWindow
 const app = electron.app
-const ipc = electron.ipcMain
+const ipcMain = electron.ipcMain
 const shell = electron.shell
 
 var mainWindow = null
-
-ipc.on('print-to-pdf', function (event) {
-  const pdfPath = path.join(os.tmpdir(), 'print.pdf')
-  const win = BrowserWindow.fromWebContents(event.sender)
-  // Use default printing options
-  win.webContents.printToPDF({}, function (error, data) {
-    if (error) throw error
-    fs.writeFile(pdfPath, data, function (error) {
-      if (error) {
-        throw error
-      }
-      shell.openExternal('file://' + pdfPath)
-      event.sender.send('wrote-pdf', pdfPath)
-    })
-  })
-})
+var workerWindow = null
 
 function initialize () {
   var shouldQuit = makeSingleInstance()
@@ -45,7 +30,7 @@ function initialize () {
     mainWindow = new BrowserWindow(windowOptions)
     mainWindow.jQuery = mainWindow.$ = module.exports
     mainWindow.$ = mainWindow.jQuery = require('./node_modules/jquery/dist/jquery.min.js')
-    //  mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
     mainWindow.maximize()
 
     let contents = mainWindow.webContents
@@ -74,6 +59,25 @@ function initialize () {
     }
   })
 }
+
+ipcMain.on("printPDF", (event, content) => {
+  mainWindow.webContents.send("printPDF", content);
+});
+// when worker window is ready
+ipcMain.on("readyToPrintPDF", (event) => {
+  const pdfPath = path.join(os.tmpdir(), 'print.pdf');
+  // Use default printing options
+  mainWindow.webContents.printToPDF({pageSize: 'A4', landscape: true, marginsType: 0, css: './assets/css/print.css', printBackground: true}, function (error, data) {
+      if (error) throw error
+      fs.writeFile(pdfPath, data, function (error) {
+          if (error) {
+              throw error
+          }
+          shell.openItem(pdfPath)
+          event.sender.send('wrote-pdf', pdfPath)
+      })
+  })
+});
 
 function makeSingleInstance () {
   if (process.mas) return false

@@ -23,12 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false, 
       defaultValue: false
     },
-  }, {
-    classMethods: {
-      associate: function(models) {
-        Client.has_many(models.Bill);
-      }
-    }
   });
+  Client.associate = (models) => {
+    Client.hasMany(models.Bill, {as: 'bills'});
+  };
+
+  Client.prototype.fullname = function() {
+    return [this.firstName, this.lastName].join(' ');
+  };
   return Client;
 };

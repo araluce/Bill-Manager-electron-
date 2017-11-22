@@ -6,8 +6,14 @@ module.exports = {
         dni: document.getElementById('bill_client_dni').value,
         selectIdClient: document.getElementById('bill_client_select').value
     },
-    errorMessage: function (message) {
-        error_wrapper = document.getElementById('billErrorMessage');
+    notice: message => {
+        content = '<div class="alert alert-info fade in">';
+        content += '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
+        content += '    <strong>' + message + '</strong>';
+        content += '</div>';
+        $('#billErrorMessage').html(content);
+    },
+    errorMessages: function (message) {
         content = '<div class="alert alert-danger fade in">';
         content += '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
         content += '    <strong>Se han producido errores de validación, por favor, revise los siguientes errores:</strong>';
@@ -15,8 +21,16 @@ module.exports = {
             content += '<br><strong>' + error.path + ': </strong>' + error.message;
         });
         content += '</div>';
-        error_wrapper.innerHTML = content;
+        $('#billErrorMessage').html(content);
         this.errorFields(message);
+    },
+    errorMessage: function (message) {
+        content = '<div class="alert alert-danger fade in">';
+        content += '    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
+        content += '    <strong>Se han producido errores de validación, por favor, revise los siguientes errores:</strong>';
+        content += '<br><strong>' + message + '</strong>';
+        content += '</div>';
+        $('#billErrorMessage').html(content);
     },
     errorFields: function (prefix, message) {
         message.errors.forEach(function (error) {
@@ -41,115 +55,33 @@ module.exports = {
                 });
                 document.getElementById('bill_client_select').innerHTML = selectOptions;
             });
-            this.pdfUpdateDNI();
         }
     },
-    createBillButtonClick: function (models) {
-        that = this;
-
-        errorFields = document.getElementsByClassName("has-error");
-        while (errorFields.length)
-            errorFields[0].className = errorFields[0].className.replace(/\has-error\b/g, "");
-
-        client = models.Client.findOrCreate({
-            where: {
-                firstName: document.getElementById('bill_client_firstName').value.toUpperCase(),
-                lastName: document.getElementById('bill_client_lastName').value.toUpperCase(),
-                dni: document.getElementById('bill_client_dni').value.toUpperCase(),
-                phone: document.getElementById('bill_client_phone').value
-            }
-        }).then(function (response) {
-            console.log('====== Client Success ======');
-            console.log(response);
-            bill = models.Bill.create({
-                client_id: response[0].dataValues.id,
-                origin: document.getElementById('bill_origin').value.toUpperCase(),
-                n_rsi: document.getElementById('bill_n_rsi').value
-            }).then(function (bill_response) {
-                console.log('====== Bill Success ======');
-                console.log(bill_response);
-                receipt = models.Receipt.create({
-                    bill_id: bill_response.dataValues.id,
-                    date_input: new Date(document.getElementById('bill_receipt_date_input').value),
-                    lot_number: document.getElementById('bill_receipt_lot_number').value,
-                    weight: document.getElementById('bill_receipt_weight').value,
-                    price: document.getElementById('bill_receipt_price').value,
-                    t_reception: document.getElementById('bill_receipt_t_reception').value.toUpperCase(),
-                    num_hams: document.getElementById('bill_receipt_num_hams').value,
-                    num_palettes: document.getElementById('bill_receipt_num_palettes').value
-                }).then(function (receipt_response) {
-                    console.log('====== Receipt Success ======');
-                    console.log(receipt_response);
-                }).catch(function (err) {
-                    //that.errorMessage('bill_receipt_',err);
-                    console.log('====== Receipt Error ======');
-                    //console.log(err);
-                });
-            }).catch(function (err) {
-                //that.errorMessage('bill_',err);
-                console.log('====== Bill Error ======');
-                //console.log(err);
-            });
-        }).catch(function (err) {
-            console.log(err.errors);
-            that.errorMessage('bill_client_',err);
-        });
-
-
-    },
     billClientSelectChange: function (models) {
-        id = document.getElementById('bill_client_select').value;
+        id = $('#bill_client_select').val();
         that = this;
         if (id != 0) {
             models.Client.findById(id)
                 .then(client => {
-                    document.getElementById('bill_client_firstName').value = client.firstName;
-                    document.getElementById('bill_client_lastName').value = client.lastName;
-                    document.getElementById('bill_client_phone').value = client.phone;
-                    document.getElementById('bill_client_dni').value = client.dni;
-                    that.pdfUpdateAll();
+                    $('#bill_client_firstName').val(client.firstName);
+                    $('#bill_client_lastName').val(client.lastName);
+                    $('#bill_client_phone').val(client.phone);
+                    $('#bill_client_dni').val(client.dni);
                 });
         }
     },
-    pdfUpdateAll: function () {
-        this.pdfUpdateFullName();
-        this.pdfUpdateDNI();
-        this.pdfUpdatePhone();
-    },
-    pdfUpdateFullName: function () {
-        document.getElementById('pdfBillFullName').innerHTML = document.getElementById('bill_client_firstName').value.toUpperCase() + ' ' + document.getElementById('bill_client_lastName').value.toUpperCase();
-    },
-    pdfUpdateDNI: function () {
-        document.getElementById('pdfBillDNI').innerHTML = document.getElementById('bill_client_dni').value.toUpperCase();
-    },
-    pdfUpdatePhone: function () {
-        document.getElementById('pdfBillPhone').innerHTML = document.getElementById('bill_client_phone').value;
-    },
-    pdfUpdateDateInput: function () {
-        document.getElementById('pdfBillDateInput').innerHTML = document.getElementById('bill_receipt_date_input').value;
-    },
-    pdfUpdateLotNumber: function () {
-        document.getElementById('pdfBillLotNumber').innerHTML = document.getElementById('bill_receipt_lot_number').value;
-    },
-    pdfUpdateWeight: function () {
-        document.getElementById('pdfBillWheight').innerHTML = document.getElementById('bill_receipt_weight').value;
-    },
-    pdfUpdatePrice: function () {
-        document.getElementById('pdfBillPrice').innerHTML = document.getElementById('bill_receipt_price').value;
-    },
-    pdfUpdateTReception: function () {
-        document.getElementById('pdfBillTReception').innerHTML = document.getElementById('bill_receipt_t_reception').value;
-    },
-    pdfUpdateOrigin: function () {
-        document.getElementById('pdfBillOrigin').innerHTML = document.getElementById('bill_origin').value;
-    },
-    pdfUpdateNRSI: function () {
-        document.getElementById('pdfBillNRSI').innerHTML = document.getElementById('bill_n_rsi').value;
-    },
-    pdfUpdateNumHams: function () {
-        document.getElementById('pdfBillNumHams').innerHTML = document.getElementById('bill_receipt_num_hams').value;
-    },
-    pdfUpdateNumPalettes: function () {
-        document.getElementById('pdfBillNumPalettes').innerHTML = document.getElementById('bill_receipt_num_palettes').value;
+    pdfUpdateAll: function (firstname, lastname, dni, phone, date_input, lot_number, weight, price, origin, treception, nrsi, num_hams, num_palettes) {
+        $('.pdfBillFullName').html(firstname + ' ' + lastname);
+        $('#pdfBillDNI').html(dni);
+        $('#pdfBillPhone').html(phone);
+        $('.pdfBillDateInput').html(date_input);
+        $('#pdfBillLotNumber').html(lot_number);
+        $('.pdfBillWheight').html(weight);
+        $('.pdfBillPrice').html(price);
+        $('#pdfBillTReception').html(treception);
+        $('.pdfBillOrigin').html(origin);
+        $('#pdfBillNRSI').html(nrsi);
+        $('.pdfBillNumHams').html(num_hams);
+        $('.pdfBillNumPalettes').html(num_palettes);
     }
 }

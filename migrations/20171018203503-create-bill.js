@@ -9,8 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       client_id: {
-        type: Sequelize.INTEGER,
         allowNull: false,
+        type: Sequelize.INTEGER
       },
       origin: {
         type: Sequelize.STRING,
@@ -20,16 +20,47 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      date_input: {
+        type: Sequelize.DATE
+      },
+      lot_number: {
+        type: Sequelize.INTEGER
+      },
+      weight: {
+        type: Sequelize.FLOAT
+      },
+      price: {
+        type: Sequelize.FLOAT
+      },
+      t_reception: {
+        type: Sequelize.STRING
+      },
+      num_hams: {
+        type: Sequelize.INTEGER
+      },
+      num_palettes: {
+        type: Sequelize.INTEGER
+      },
+      num_hams_out: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      num_palettes_out: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
       deleted: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
